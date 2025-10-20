@@ -1,4 +1,5 @@
 import neptune
+from neptune.integrations.python_logger import NeptuneHandler
 import logging
 import argparse
 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
         tags=["Hello World"],
     )
     
-    logger.addHandler(neptune.integrations.logging.NeptuneHandler(run=run))
+    logger.addHandler(NeptuneHandler(run=run))
     run["cmd-args"] = args
 
     logger.info("Hello, Neptune!")
