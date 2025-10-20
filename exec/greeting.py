@@ -27,8 +27,10 @@ if __name__ == "__main__":
     # Set default logging information
     logger.addHandler(NeptuneHandler(run=run))
     run["cmd-args"] = args
-    run["slurm/stdout_path"] = os.environ.get("SLURM_STDOUT_PATH")
-    run["slurm/stderr_path"] = os.environ.get("SLURM_STDERR_PATH")
+    run["slurm"] = {
+        "stdout_path": os.environ.get("SLURM_STDOUT_PATH"),
+        "stderr_path": os.environ.get("SLURM_STDERR_PATH"),
+    }
 
     logger.info("Hello, Neptune!")
 
