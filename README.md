@@ -10,4 +10,5 @@ Machine Learning On Graphs
     └── README.md
 <br>
 
-    greeting.py sets up the Neptune logger connected to python logger.
+
+greeting.py is an hello world program that creates a Neptune run for the [project](https://app.neptune.ai/o/ALLab-Boun/org/graph-ml/runs/table?viewId=standard-view), connects python logger to the run, logs cmd arguments and slurm output file names.
