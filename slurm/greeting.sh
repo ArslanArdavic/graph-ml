@@ -18,4 +18,4 @@ cd "${SLURM_SUBMIT_DIR:-$PWD}"
 mkdir -p slurm/log
 
 # Run your training
-python exec/greeting.py
+python exec/greeting.py --message "Hello, World!"
