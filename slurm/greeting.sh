@@ -17,5 +17,11 @@ cd "${SLURM_SUBMIT_DIR:-$PWD}"
 # Ensure the log directory exists (under slurm/)
 mkdir -p slurm/log
 
+# resolve the same filename sbatch will use by expanding %j → $SLURM_JOB_ID
+export SLURM_STDOUT_PATH="slurm/log/greeting_${SLURM_JOB_ID}.out"
+export SLURM_STDERR_PATH="slurm/log/greeting_${SLURM_JOB_ID}.err"
+
 # Run your training
 python exec/greeting.py --message "Hello, World!"
+
+# Change SBATCH out file names and paths for different setups.
