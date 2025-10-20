@@ -15,13 +15,16 @@ if __name__ == "__main__":
 
     # Initialize Neptune run, add handler and cmd args
     run = neptune.init_run(
-        project="ALLab/graph-ml",
-        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJjYjlhZjMxMS1mZjgyLTQ4Y2YtYmY5ZC1mMjVjOWU2YmI4YWMifQ=="
+        project="ALLab-Boun/graph-ml",
+        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJjYjlhZjMxMS1mZjgyLTQ4Y2YtYmY5ZC1mMjVjOWU2YmI4YWMifQ==",
+        name="greeting",
+        description="Simple greeting script",
+        tags=["Hello World"],
     )
     
     logger.addHandler(neptune.integrations.logging.NeptuneHandler(run=run))
     run["cmd-args"] = args
 
     logger.info("Hello, Neptune!")
-    
+
     run.stop()
