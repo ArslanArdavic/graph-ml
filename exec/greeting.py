@@ -27,10 +27,19 @@ if __name__ == "__main__":
     # Set default logging information
     logger.addHandler(NeptuneHandler(run=run))
     run["cmd-args"] = args
+    
+    # Make sure these are non-empty strings
+    job_id = os.environ.get("SLURM_ARRAY_JOB_ID") or os.environ.get("SLURM_JOB_ID") or "UNKNOWN"
+    stdout_path = os.environ.get("SLURM_STDOUT_PATH") or f"slurm/log/greeting_{job_id}.out"
+    stderr_path = os.environ.get("SLURM_STDERR_PATH") or f"slurm/log/greeting_{job_id}.err"
+
+    # Log as a small namespace/dict (shows in metadata even if values are empty strings)
     run["slurm"] = {
-        "stdout_path": os.environ.get("SLURM_STDOUT_PATH"),
-        "stderr_path": os.environ.get("SLURM_STDERR_PATH"),
+        "job_id": job_id,
+        "stdout_path": stdout_path,
+        "stderr_path": stderr_path,
     }
+
 
     logger.info("Hello, Neptune!")
 
