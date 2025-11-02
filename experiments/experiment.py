@@ -87,10 +87,7 @@ class Experiment(ExperimentAbstract):
                     "stderr_path": stderr_path,
                 }
 
-        logger.info(f"Initializing instance: {repr(self)}")
-
-        print(f"Initialized instance: {repr(self)}")
-        print(f"Remote execution: {args.remote}")
+        logger.info(f"Initialized instance: {repr(self)}")
         
         return args, logger, run
     
