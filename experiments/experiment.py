@@ -91,8 +91,8 @@ class Experiment(AbstractExperiment):
         
         return args, logger, run
     
-    def construct_data_loaders(self):
-        """ Function to retrive dataloaders for different splits or datasets.
+    def retrieve_data(self):
+        """ Function to retrive dataloaders or the raw data for different splits or datasets.
 
             Returns: 
                 Collection of dataloaders
@@ -146,7 +146,7 @@ class Experiment(AbstractExperiment):
                 Object instances involved in the environment. 
         """        
         args, logger, neptune_run = self.prepare_interaction()
-        data_loaders = self.construct_data_loaders()            # Collection of dataloaders for different splits or datasets.
+        data         = self.retrieve_data()                     # Collection of dataloaders/datasets
         framework    = self.construct_framework_architecture()  # Trainable system.
         return
 
