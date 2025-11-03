@@ -7,7 +7,7 @@ Typical usage example:
 """
 from abc import ABC, abstractmethod
 
-class ExperimentAbstract(ABC):   
+class AbstractExperiment(ABC):   
     """This class creates experiment environment.
 
     Prepares logging.

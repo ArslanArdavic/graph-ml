@@ -15,9 +15,9 @@ import logging
 from neptune.integrations.python_logger import NeptuneHandler
 import neptune
 
-from . import ExperimentAbstract
+from . import AbstractExperiment
 
-class Experiment(ExperimentAbstract):   
+class Experiment(AbstractExperiment):   
     """This class creates experiment environment.
 
     Prepares logging.
