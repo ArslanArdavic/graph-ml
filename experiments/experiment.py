@@ -104,7 +104,7 @@ class Experiment(AbstractExperiment):
         """ Function to create and connect components such as trainable models.
 
             Returns: 
-                Framework consists of trainable and non-trainable modules
+                System consists of trainable and non-trainable modules
         """  
         framework = None
         return framework
