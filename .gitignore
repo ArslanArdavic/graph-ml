@@ -1,1 +1,4 @@
+.vscode
+.neptune
 /outputs/
+__pycache__/
