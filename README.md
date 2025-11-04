@@ -10,6 +10,7 @@ Machine Learning On Graphs
     │   ├── pyg_data_factory.py                 # Class for torch_geometric.datasets
     │   ├── planetoid_data_factory.py           # Class for torch_geometric Planetoid 
     ├── experiments                     # Setups for ML tasks
+    │   ├── __init__.py
     │   ├── abstract_experiment.py              # Interface for an experiment
     │   ├── experiment.py                       # Basic experiment example
     ├── slurm                           # Slurm scripts & logs
