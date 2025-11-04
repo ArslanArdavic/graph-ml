@@ -10,6 +10,7 @@
 
 set -euo pipefail
 
+pip install overrides
 
 # Always start in the directory you ran `sbatch` from (the repo root)
 cd "${SLURM_SUBMIT_DIR:-$PWD}"
