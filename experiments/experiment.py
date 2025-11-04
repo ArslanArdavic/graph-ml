@@ -11,16 +11,18 @@ Typical usage example:
 import os
 import argparse
 import logging
+from overrides import override
 
 from neptune.integrations.python_logger import NeptuneHandler
 import neptune
 
 from . import AbstractExperiment
+from data import PlanetoidDataFactory
 
 class Experiment(AbstractExperiment):   
     """This class creates experiment environment.
 
-    Prepares logging.
+    Instantiates neptune logging.
     Loads data.
     Connects trainable and non-trainable modules to construct the system architecture.
     Prepares training pipeline.
@@ -40,15 +42,9 @@ class Experiment(AbstractExperiment):
     
     def __str__(self):
         return "Experiment"
-        
+    
+    @override
     def prepare_interaction(self):
-        """ Function to instantiate parser, logger and Neptune run.
-
-            Returns: 
-                Arguments parsed 
-                Logger 
-                Neptune run
-        """   
         # Parse command-line arguments
         parser = argparse.ArgumentParser()
         parser.add_argument("--remote", type=bool, default=False)
@@ -91,15 +87,15 @@ class Experiment(AbstractExperiment):
         
         return args, logger, run
     
+    @override
     def retrieve_data(self):
-        """ Function to retrive dataloaders or the raw data for different splits or datasets.
+        data_factory = PlanetoidDataFactory(name="Cora")
+        dataset      = data_factory.load_dataset()
+        data         = dataset[0]
+        self.logger.info(f"Loaded the dataset: {dataset}")
+        return data
 
-            Returns: 
-                Collection of dataloaders
-        """  
-        data_loaders = None
-        return data_loaders
-
+    @override
     def construct_framework_architecture(self):
         """ Function to create and connect components such as trainable models.
 
@@ -109,43 +105,22 @@ class Experiment(AbstractExperiment):
         framework = None
         return framework
 
+    @override
     def construct_training_pipeline(self):
-        """ Function to define objectives, optimizers, training loops and train/validation metrics over an existing framework. 
-
-            Returns: 
-                Trainable framework along with optimizer(s) to solve task(s) designated over dataset(s).   
-        """
         training_pipeline = None
         return training_pipeline
     
+    @override
     def execute_training(self):
-        """ Function to train the system.
-
-            Returns: 
-                Trained framework.  
-        """
         return 
 
+    @override
     def construct_test_reporter(self):
-        """ Function to test the system.
-
-            Returns: 
-                Report about the framework performance on multiple metrics.   
-        """
         return 
     
-    def main(self):
-        """ Function to implement class functionalities in a single entry-point.
-
-            Performs every action to construct an experiment environment.
-
-            Args:
-                arg: A default argument
-
-            Returns: 
-                Object instances involved in the environment. 
-        """        
-        args, logger, neptune_run = self.prepare_interaction()
+    @override
+    def main(self):     
+        self.args, self.logger, self.neptune_run = self.prepare_interaction()
         data         = self.retrieve_data()                     # Collection of dataloaders/datasets
         framework    = self.construct_framework_architecture()  # Trainable system.
         return
