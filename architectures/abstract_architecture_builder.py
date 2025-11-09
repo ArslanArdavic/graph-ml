@@ -14,19 +14,18 @@ class AbstractArchitectureBuilder(ABC):
     """ 
 
     @abstractmethod
-    def create_component(self, blueprint):
-        """ Function to create a component
-            Args:
-                blueprint: Dictionary of elements describing the component
+    def reset(self):
+        """ Function to create an empty architecture
             Returns: 
-                Trainable or non-trainable object
+                Initial Architecture object
         """  
         return
     
     @abstractmethod
-    def connect_components(self):
-        """ Function to connect multiple components
-
+    def get_result(self):
+        """ Function to get latest architecture configuration.
+            Returns:
+                Architecture object
         """  
         return
     

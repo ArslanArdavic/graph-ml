@@ -9,6 +9,7 @@ Machine Learning On Graphs
     │   ├── abstract_architecture_builder.py    # Interface for a builder 
     │   ├── architecture_builder.py             # Basic builder example 
     │   ├── architecture.py                     # Class to contain components 
+    │   ├── director.py                         # Class controlling the builder 
     ├── data                            # Data-related classes 
     │   ├── __init__.py            
     │   ├── abstract_data_factory.py            # Interface for a data factory 
@@ -22,7 +23,8 @@ Machine Learning On Graphs
     │   ├── experiment.sh                       # Run experiment
     │   ├── greeting.sh
     ├── tests                           # Tests for classes 
-    │   ├── planetoid_data_factory_test.py      
+    │   ├── planetoid_data_factory_test.py  
+    │   ├── director_test.py      
     └── README.md
 <br>
 
@@ -39,4 +41,4 @@ Locate to root an run the tests as modules e.g.
 - Implement the generic class PyGDataFactory  
 - PlanetoidDataFactory should create DataLoader 
 - How should Architecture class store components?
-- How should ArchitectureBuilder connect components?
+- How should to connect Architecture components?

@@ -8,7 +8,8 @@ Typical usage example:
 """
 from overrides import override
 
-from . import AbstractArchitectureBuilder, Architecture
+from .abstract_architecture_builder import AbstractArchitectureBuilder 
+from .architecture import Architecture
 from models import GCN, MLP
 
 class ArchitectureBuilder(AbstractArchitectureBuilder):
@@ -32,34 +33,46 @@ class ArchitectureBuilder(AbstractArchitectureBuilder):
         return "ArchitectureBuilder"
     
     @override
-    def create_component(self, blueprint):
-        """ This function instantiates an GCN or MLP object.
+    def reset(self):
+        self.arch = Architecture()
+        return
+    
+    @override
+    def get_result(self):
+        return self.arch
+    
+    def build_gcn(self, blueprint):
+        """ This function creates a GCN object.
             Adds the object to the architecture.
 
             Args:
-                blueprint: Dictionary for component specification, "model_type" is required.
-                          e.g. {"model_type": "GCN", "in_dim": 512, "hidden_dims": [1028,1028], "out_dim": 256, "bias": True}
+                blueprint: Dictionary of GCN specifications.
+                          e.g. {"in_dim": 512, "hidden_dims": [1028,1028], "out_dim": 256, "bias": True}
             Returns:
                 Object created
-        """
+        """ 
         if type(blueprint) != dict:
             raise TypeError(f"Argument to blueprint should be of type dict. Given type {type(blueprint)} is incorrect.")
 
-        model_type =  blueprint.get("model_type") 
-
-        if model_type not in ["GCN", "MLP"] or model_type == None:
-            raise ValueError(f"Given model_type : {model_type} is not supported.")
-        else:
-            in_dim, hidden_dims, out_dim, bias = blueprint.get("in_dim"), blueprint.get("hidden_dims"), blueprint.get("out_dim"), blueprint.get("bias")
-            if model_type=="GCN":
-                component = GCN(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
-            elif model_type=="MLP":
-                component = MLP(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
-
-        self.arch.add_component(component)
-
+        in_dim, hidden_dims, out_dim, bias = blueprint.get("in_dim"), blueprint.get("hidden_dims"), blueprint.get("out_dim"), blueprint.get("bias")
+        component = GCN(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
+        self.arch.add_component(component=component)
         return component
-    
-    @override
-    def connect_components(self):
-        return
+
+    def build_mlp(self, blueprint):
+        """ This function creates an MLP object.
+            Adds the object to the architecture.
+
+            Args:
+                blueprint: Dictionary of MLP specifications.
+                          e.g. {"in_dim": 512, "hidden_dims": [1028,1028], "out_dim": 256, "bias": True}
+            Returns:
+                Object created
+        """ 
+        if type(blueprint) != dict:
+            raise TypeError(f"Argument to blueprint should be of type dict. Given type {type(blueprint)} is incorrect.")
+
+        in_dim, hidden_dims, out_dim, bias = blueprint.get("in_dim"), blueprint.get("hidden_dims"), blueprint.get("out_dim"), blueprint.get("bias")
+        component = MLP(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
+        self.arch.add_component(component=component)
+        return component

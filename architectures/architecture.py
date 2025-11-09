@@ -6,7 +6,7 @@ This script defines the Architecture class to
 
 class Architecture():
     def __init__(self):
-        self.components = None 
+        self.components = [] 
 
     def __repr__(self):
         items = ((k, v) for k, v in vars(self).items() if not k.startswith('_'))
@@ -16,5 +16,5 @@ class Architecture():
     def __str__(self):
         return "Architecture"
     
-    def add_component(self,component):
-        return
+    def add_component(self, component):
+        self.components.append(component)
