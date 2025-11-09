@@ -1,11 +1,13 @@
 """Minimal container class
 
-This script defines the Architecture class to  
+This script defines various architectures.  
 
 """
+import torch.nn as nn
 
-class Architecture():
+class Architecture(nn.Module):
     def __init__(self):
+        super().__init__()
         self.components = [] 
 
     def __repr__(self):

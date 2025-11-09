@@ -15,13 +15,18 @@ if __name__ == "__main__":
                 "bias": True
                 }
     # Simple Architectures
-    arch_gcn = director.construct_gcn(blueprint=gcn_spec)
-    print(repr(arch_gcn))
-    arch_mlp = director.construct_mlp(blueprint=mlp_spec)
-    print(repr(arch_mlp))
+    #arch_gcn = director.construct_gcn(blueprint=gcn_spec)
+    #arch_mlp = director.construct_mlp(blueprint=mlp_spec)
+
+
 
     # Two-component Architectures
     arch_gcn_mlp = director.construct_gcn_with_head(blueprint_gcn=gcn_spec,blueprint_mlp=mlp_spec)
+    #arch_mlp_gcn = director.construct_gcn_preproject(blueprint_gcn=gcn_spec,blueprint_mlp=mlp_spec)
+
+    # Print architectures
+    #print(repr(arch_gcn))
+    #print(repr(arch_mlp))
     print(repr(arch_gcn_mlp))
-    arch_mlp_gcn = director.construct_gcn_preproject(blueprint_gcn=gcn_spec,blueprint_mlp=mlp_spec)
-    print(repr(arch_mlp_gcn))
+    print(arch_gcn_mlp)
+    #print(repr(arch_mlp_gcn))

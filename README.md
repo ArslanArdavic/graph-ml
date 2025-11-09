@@ -40,5 +40,7 @@ Locate to root an run the tests as modules e.g.
 ### TODO
 - Implement the generic class PyGDataFactory  
 - PlanetoidDataFactory should create DataLoader 
-- How should Architecture class store components?
-- How should to connect Architecture components?
+- Q: How should Architecture class store components?
+- Q: How should to connect Architecture components?
+- A: Create minimal Architecture childs only with forward functions. 
+- See https://chatgpt.com/share/691100fe-be08-800f-b023-80c8db90d676
