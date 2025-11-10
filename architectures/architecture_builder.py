@@ -9,7 +9,7 @@ Typical usage example:
 from overrides import override
 
 from .abstract_architecture_builder import AbstractArchitectureBuilder 
-from .architecture import Architecture
+from .architecture import Architecture, SingleGCN, SingleMLP, GCNHeaded, GCNPreproject
 from models import GCN, MLP
 
 class ArchitectureBuilder(AbstractArchitectureBuilder):
@@ -43,8 +43,6 @@ class ArchitectureBuilder(AbstractArchitectureBuilder):
     
     def build_gcn(self, blueprint):
         """ This function creates a GCN object.
-            Adds the object to the architecture.
-
             Args:
                 blueprint: Dictionary of GCN specifications.
                           e.g. {"in_dim": 512, "hidden_dims": [1028,1028], "out_dim": 256, "bias": True}
@@ -56,13 +54,10 @@ class ArchitectureBuilder(AbstractArchitectureBuilder):
 
         in_dim, hidden_dims, out_dim, bias = blueprint.get("in_dim"), blueprint.get("hidden_dims"), blueprint.get("out_dim"), blueprint.get("bias")
         component = GCN(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
-        self.arch.add_component(component=component)
         return component
 
     def build_mlp(self, blueprint):
         """ This function creates an MLP object.
-            Adds the object to the architecture.
-
             Args:
                 blueprint: Dictionary of MLP specifications.
                           e.g. {"in_dim": 512, "hidden_dims": [1028,1028], "out_dim": 256, "bias": True}
@@ -74,5 +69,66 @@ class ArchitectureBuilder(AbstractArchitectureBuilder):
 
         in_dim, hidden_dims, out_dim, bias = blueprint.get("in_dim"), blueprint.get("hidden_dims"), blueprint.get("out_dim"), blueprint.get("bias")
         component = MLP(in_dim=in_dim, hidden_dims=hidden_dims, out_dim=out_dim, bias=bias)
-        self.arch.add_component(component=component)
         return component
+    
+    def build_arch_single_gcn(self, blueprint):
+        """Instantiates an SingleGCN architecture
+            Args:
+                blueprint: GCN specs
+            Returns: 
+                SingleGCN architecture object       
+        """
+        self.arch = SingleGCN()
+        gcn = self.build_gcn(blueprint=blueprint)
+        self.arch.update_component(name="GCN", component=gcn)
+        return self.arch
+    
+    def build_arch_single_mlp(self, blueprint):
+        """Instantiates an SingleMLP architecture
+            Args:
+                blueprint: MLP specs
+            Returns: 
+                SingleMLP architecture object       
+        """
+        self.arch = SingleMLP()
+        mlp = self.build_mlp(blueprint=blueprint)
+        self.arch.update_component(name="MLP", component=mlp)
+        return self.arch
+    
+    def build_arch_construct_gcn_with_head(self, blueprint_gcn, blueprint_mlp):
+        """Instantiates a GCNHeaded architecture
+            Args:
+                blueprint_gcn: GCN specs
+                blueprint_mlp: MLP specs
+            Returns: 
+                GCNHeaded architecture object       
+        """
+        self.arch = GCNHeaded()
+        if blueprint_gcn.get("out_dim") != blueprint_mlp.get("in_dim"):
+            raise ValueError(f"GCN logit dimension does not match with MLP input dimension.")
+        
+        gcn = self.build_gcn(blueprint=blueprint_gcn)
+        mlp = self.build_mlp(blueprint=blueprint_mlp)
+        self.arch.update_component(name="GCN", component=gcn)
+        self.arch.update_component(name="MLP", component=mlp)
+        return self.arch
+    
+    def build_arch_construct_gcn_preproject(self, blueprint_gcn, blueprint_mlp):
+        """Instantiates a GCNPreproject architecture
+            Args:
+                blueprint_gcn: GCN specs
+                blueprint_mlp: MLP specs
+            Returns: 
+                GCNPreproject architecture object       
+        """
+        self.arch = GCNPreproject()
+        if blueprint_gcn.get("in_dim") != blueprint_mlp.get("out_dim"):
+            raise ValueError(f"MLP logit dimension does not match with GCN input dimension.")
+        
+        gcn = self.build_gcn(blueprint=blueprint_gcn)
+        mlp = self.build_mlp(blueprint=blueprint_mlp)
+        self.arch.update_component(name="GCN", component=gcn)
+        self.arch.update_component(name="MLP", component=mlp)
+        return self.arch
+    
+    

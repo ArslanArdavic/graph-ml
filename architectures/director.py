@@ -20,30 +20,28 @@ class Director():
     def __str__(self):
         return "ArchitectureBuilder"
 
-    def construct_gcn(self, blueprint):
+    def construct_single_gcn(self, blueprint):
         """This function construct an Architecture with a sole GCN
         Args:  
             blueprint: Dictionary of GCN specifications.
         Returns:
             Architecture including one GCN
-        """
+        """        
         self.builder.reset()
-        self.builder.build_gcn(blueprint=blueprint)
-        return self.builder.get_result()
+        return self.builder.build_arch_single_gcn(blueprint=blueprint)       
     
-    def construct_mlp(self, blueprint):
-        """This function construct an Architecture with a sole MLP
+    def construct_single_mlp(self, blueprint):
+        """This function constructs an Architecture with a sole MLP
         Args:  
             blueprint: Dictionary of MLP specifications.
         Returns:
             Architecture including one MLP
         """
         self.builder.reset()
-        self.builder.build_mlp(blueprint=blueprint)
-        return self.builder.get_result()
+        return self.builder.build_arch_single_mlp(blueprint=blueprint)
     
     def construct_gcn_with_head(self, blueprint_gcn, blueprint_mlp):
-        """This function construct an Architecture,
+        """This function constructs an Architecture,
             with a GCN with an MLP on top. 
 
         Args:  
@@ -53,9 +51,7 @@ class Director():
             Architecture including GCN with MLP Head
         """
         self.builder.reset()
-        gcn = self.builder.build_gcn(blueprint=blueprint_gcn)
-        mlp = self.builder.build_mlp(blueprint=blueprint_mlp)
-        return self.builder.get_result()
+        return self.builder.build_arch_construct_gcn_with_head(blueprint_gcn, blueprint_mlp)
     
     def construct_gcn_preproject(self, blueprint_gcn, blueprint_mlp):
         """This function construct an Architecture,
@@ -68,6 +64,4 @@ class Director():
             Architecture including GCN with MLP pre-projection 
         """
         self.builder.reset()
-        mlp = self.builder.build_mlp(blueprint=blueprint_mlp)
-        gcn = self.builder.build_gcn(blueprint=blueprint_gcn)
-        return self.builder.get_result()
+        return self.builder.build_arch_construct_gcn_preproject(blueprint_gcn, blueprint_mlp)

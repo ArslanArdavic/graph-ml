@@ -18,6 +18,7 @@ import neptune
 
 from . import AbstractExperiment
 from data import PlanetoidDataFactory
+from architectures import Director
 
 class Experiment(AbstractExperiment):   
     """This class creates experiment environment.
@@ -101,9 +102,27 @@ class Experiment(AbstractExperiment):
 
             Returns: 
                 System consists of trainable and non-trainable modules
+
+            TODO: Take spec file for architecture configuration 
         """  
-        framework = None
-        return framework
+        
+        director = Director()
+        gcn_spec = {
+                "in_dim": 512,
+                "hidden_dims": [1024,2048],
+                "out_dim": 512,
+                "bias": True
+                }
+        
+        head_spec = {
+            "in_dim": 512,
+            "hidden_dims": [],
+            "out_dim": 8,
+            "bias": True
+            }
+        arch = director.construct_gcn_with_head(blueprint_gcn=gcn_spec,blueprint_mlp=head_spec)
+        self.logger.info(f"Architecture created:\n{repr(arch)}")
+        return arch
 
     @override
     def construct_training_pipeline(self):
@@ -122,7 +141,7 @@ class Experiment(AbstractExperiment):
     def main(self):     
         self.args, self.logger, self.neptune_run = self.prepare_interaction()
         data         = self.retrieve_data()                     # Collection of dataloaders/datasets
-        framework    = self.construct_framework_architecture()  # Trainable system.
+        arch         = self.construct_framework_architecture()  # Trainable system.
         return
 
 if __name__ == "__main__":
